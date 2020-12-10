@@ -237,6 +237,11 @@
             JObject query = new JObject { { "method", "state_getMetadata" }, { "params", prm } };
 
             JObject response = _jsonRpc.Request(query);
+            if (TryDeserialize<MetadataV12, ParseMetadataV12>(response, out MetadataV12 md12))
+            {
+                _metadataCache = md12;
+                return md12;
+            }
 
             if (TryDeserialize<MetadataV11, ParseMetadataV11>(response, out MetadataV11 md11))
             {
